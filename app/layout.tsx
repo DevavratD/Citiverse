@@ -6,13 +6,14 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "UrbanPulse Pune",
   description: "Real-time urban data platform for Pune citizens",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -30,12 +31,10 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <Script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js" strategy="afterInteractive" />
+          <Script src="https://files.bpcontent.cloud/2025/03/23/00/20250323003302-TZS6A7L3.js" strategy="afterInteractive" />
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
-
-
-import './globals.css'
