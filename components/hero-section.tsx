@@ -32,8 +32,7 @@ export function HeroSection() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-muted-foreground/20">
                 <div className="flex h-full items-center justify-center">
                   <div className="text-center">
-                    <div className="text-4xl font-bold">Pune</div>
-                    <div className="text-xl">Smart City Initiative</div>
+                    <img src="pune.jpg" alt="" />
                   </div>
                 </div>
               </div>

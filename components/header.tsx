@@ -23,6 +23,9 @@ const navigation = [
   { name: "Forum", href: "/forum" },
   { name: "Surveys", href: "/surveys" },
   { name: "Alerts", href: "/alerts" },
+  { name: "Services", href: "/services" },
+  { name: "Crowdsourcing", href: "/crowdsourcing" },
+
   
 ]
 
@@ -31,8 +34,8 @@ export default function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
+      <div className="container flex h-16 items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
@@ -43,8 +46,8 @@ export default function Header() {
             <SheetContent side="left" className="w-[240px] sm:w-[300px]">
               <div className="flex flex-col gap-4 py-4">
                 <Link href="/" className="flex items-center gap-2 font-bold text-xl" onClick={() => setIsOpen(false)}>
-                  <span className="text-primary">Urban</span>
-                  <span>Pulse</span>
+                  <span className="text-primary">Citi</span>
+                  <span>verse</span>
                 </Link>
                 <nav className="flex flex-col gap-2">
                   {navigation.map((item) => (
@@ -66,12 +69,12 @@ export default function Header() {
               </div>
             </SheetContent>
           </Sheet>
-          <Link href="/" className="flex items-center gap-1 font-bold text-xl">
-            <span className="text-primary">Urban</span>
-            <span>Pulse</span>
+          <Link href="/" className="flex ml-10 items-center gap-1 font-bold text-xl">
+            <span className="text-primary">CITIVERSE</span>
+            
           </Link>
         </div>
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden ml-30 lg:flex items-center gap-6">
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -85,7 +88,7 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div style={{ marginRight: -112 }} className="flex items-center gap-3">
           <Button variant="ghost" size="icon" aria-label="Notifications">
             <Bell className="h-5 w-5" />
           </Button>
@@ -94,7 +97,7 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
+                  <AvatarImage src="/public/user.png" alt="User" />
                   <AvatarFallback>UP</AvatarFallback>
                 </Avatar>
               </Button>
