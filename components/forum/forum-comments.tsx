@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,85 +19,33 @@ export function ForumComments({ postId }: ForumCommentsProps) {
   const [comments, setComments] = useState<any[]>([])
   const [commentText, setCommentText] = useState("")
 
+  // Fetch comments from the backend for the given postId
   useEffect(() => {
-    // Simulate API call
     const fetchComments = async () => {
       setLoading(true)
-      // In a real app, this would be an API call
-      setTimeout(() => {
-        setComments([
-          {
-            id: 1,
-            content: "I noticed this pothole too. It's particularly dangerous at night when visibility is low.",
-            author: {
-              name: "Priya Joshi",
-              username: "greenthumb",
-              avatar: "/placeholder.svg?height=40&width=40",
-              isOfficial: false,
-            },
-            time: "2 hours ago",
-            upvotes: 8,
-            downvotes: 0,
-            replies: [],
-          },
-          {
-            id: 2,
-            content:
-              "Thank you for reporting this issue. We have added it to our priority list and a repair team will be dispatched within 48 hours.",
-            author: {
-              name: "PMC Roads Department",
-              username: "pmc_roads",
-              avatar: "/placeholder.svg?height=40&width=40",
-              isOfficial: true,
-            },
-            time: "1 hour ago",
-            upvotes: 15,
-            downvotes: 0,
-            replies: [
-              {
-                id: 21,
-                content: "Thank you for the quick response!",
-                author: {
-                  name: "Rahul Sharma",
-                  username: "citizen123",
-                  avatar: "/placeholder.svg?height=40&width=40",
-                  isOfficial: false,
-                },
-                time: "45 minutes ago",
-                upvotes: 3,
-                downvotes: 0,
-              },
-            ],
-          },
-          {
-            id: 3,
-            content: "I hit this pothole yesterday and it damaged my scooter's wheel. This needs to be fixed ASAP.",
-            author: {
-              name: "Aditya Patil",
-              username: "nightwalker",
-              avatar: "/placeholder.svg?height=40&width=40",
-              isOfficial: false,
-            },
-            time: "30 minutes ago",
-            upvotes: 6,
-            downvotes: 0,
-            replies: [],
-          },
-        ])
+      try {
+        const response = await fetch(`http://localhost:3069/api/comments?postId=${postId}`)
+        if (!response.ok) {
+          throw new Error("Error fetching comments")
+        }
+        const data = await response.json()
+        setComments(data)
+      } catch (error) {
+        console.error("Error fetching comments:", error)
+      } finally {
         setLoading(false)
-      }, 1500)
+      }
     }
-
     fetchComments()
   }, [postId])
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  // Handle comment submission to the backend
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!commentText.trim()) return
 
-    // In a real app, this would be an API call to submit the comment
-    const newComment = {
-      id: comments.length + 1,
+    const newCommentPayload = {
+      postId,
       content: commentText,
       author: {
         name: "You",
@@ -113,8 +59,21 @@ export function ForumComments({ postId }: ForumCommentsProps) {
       replies: [],
     }
 
-    setComments([...comments, newComment])
-    setCommentText("")
+    try {
+      const response = await fetch("http://localhost:3069/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newCommentPayload),
+      })
+      if (!response.ok) {
+        throw new Error("Error submitting comment")
+      }
+      const savedComment = await response.json()
+      setComments([...comments, savedComment])
+      setCommentText("")
+    } catch (error) {
+      console.error("Error posting comment:", error)
+    }
   }
 
   return (
@@ -133,10 +92,11 @@ export function ForumComments({ postId }: ForumCommentsProps) {
               onChange={(e) => setCommentText(e.target.value)}
               className="min-h-[100px]"
             />
-            => setCommentText(e.target.value)} className="min-h-[100px]" />
           </CardContent>
           <CardFooter className="flex justify-between">
-            <div className="text-xs text-muted-foreground">Be respectful and provide helpful information</div>
+            <div className="text-xs text-muted-foreground">
+              Be respectful and provide helpful information
+            </div>
             <Button type="submit" disabled={!commentText.trim()}>
               Post Comment
             </Button>
@@ -165,7 +125,7 @@ export function ForumComments({ postId }: ForumCommentsProps) {
       ) : (
         <div className="space-y-4">
           {comments.map((comment) => (
-            <Card key={comment.id}>
+            <Card key={comment._id || comment.id}>
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -216,7 +176,7 @@ export function ForumComments({ postId }: ForumCommentsProps) {
                   <Separator className="my-4" />
                   <div className="space-y-4">
                     {comment.replies.map((reply: any) => (
-                      <div key={reply.id} className="pl-4 border-l-2">
+                      <div key={reply._id || reply.id} className="pl-4 border-l-2">
                         <div className="flex items-center gap-2 mb-1">
                           <Avatar className="h-6 w-6">
                             <AvatarImage src={reply.author.avatar} alt={reply.author.name} />
@@ -251,4 +211,3 @@ export function ForumComments({ postId }: ForumCommentsProps) {
     </div>
   )
 }
-

@@ -159,7 +159,7 @@ export function CityDashboard() {
         </TabsContent>
 
         {/* City Highlights Tab */}
-        <TabsContent value="community" className="space-y-4">
+        <TabsContent value="" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <ForumHighlightsCard detailed />
             <SurveyCard detailed />

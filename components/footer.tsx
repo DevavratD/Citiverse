@@ -7,8 +7,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-1 font-bold text-xl">
-              <span className="text-primary">Urban</span>
-              <span>Pulse</span>
+              <span className="text-primary">CITIVERSE</span>
+              
             </Link>
             <p className="text-sm text-muted-foreground">Real-time urban data platform for Pune citizens</p>
           </div>
@@ -69,7 +69,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} UrbanPulse. All rights reserved.
+          &copy; {new Date().getFullYear()} CITIVERSE. All rights reserved.
         </div>
       </div>
     </footer>
